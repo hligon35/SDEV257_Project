@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Spotlight</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Skip link for keyboard users -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" role="banner">
+    <h1 class="site-title">Spotlight</h1>
+    <p class="site-desc">Discover what’s trending, see what’s coming.</p>
+    <!-- Simple nav using buttons -->
+    <nav aria-label="Main navigation">
+      <ul class="nav-list" role="tablist">
+        <li>
+          <button id="tab-trending" role="tab" aria-controls="screen-trending" aria-selected="true">Trending Now</button>
+        </li>
+        <li>
+          <button id="tab-coming" role="tab" aria-controls="screen-coming" aria-selected="false">Coming Soon</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" class="main" role="main">
+    <!-- Two screens are implemented as sections and toggled by user. -->
+
+    <section id="screen-trending" class="screen" aria-labelledby="tab-trending">
+      <h2>Trending Now</h2>
+      <div class="cards" role="list">
+        <!-- Example card; real data will be inserted by the API module. -->
+        <article class="card" role="listitem">
+          <img class="poster" src="placeholder-poster.jpg" alt="Poster: Example Movie">
+          <div class="card-body">
+            <h3 class="card-title">Example Movie</h3>
+            <p class="meta">Rating: 8.2 • 2025</p>
+            <p class="overview">Short overview text goes here to show layout behavior.</p>
+          </div>
+        </article>
+        <!-- Placeholder cards to illustrate flex-wrap and responsiveness -->
+        <article class="card" role="listitem">
+          <img class="poster" src="placeholder-poster.jpg" alt="Poster: Example Movie 2">
+          <div class="card-body">
+            <h3 class="card-title">Another Movie</h3>
+            <p class="meta">Rating: 7.8 • 2025</p>
+            <p class="overview">More overview text for responsiveness testing.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="screen-coming" class="screen hidden" aria-labelledby="tab-coming" aria-hidden="true">
+      <h2>Coming Soon</h2>
+      <div class="cards" role="list">
+        <article class="card" role="listitem">
+          <img class="poster" src="placeholder-poster.jpg" alt="Poster: Upcoming Movie">
+          <div class="card-body">
+            <h3 class="card-title">Upcoming One</h3>
+            <p class="meta">Release: Dec 2025</p>
+            <p class="overview">Placeholder overview; real data comes from API module.</p>
+          </div>
+        </article>
+        <article class="card" role="listitem">
+          <img class="poster" src="placeholder-poster.jpg" alt="Poster: Upcoming Movie 2">
+          <div class="card-body">
+            <h3 class="card-title">Upcoming Two</h3>
+            <p class="meta">Release: Jan 2026</p>
+            <p class="overview">Second placeholder card to show layout wrapping.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
