@@ -2,32 +2,152 @@
   --gap: 1rem;
   --card-width: 220px;
   --max-width: 1100px;
+
+  /* COLOR PALETTE */
+  --color-bg: #ffffff;
+  --color-surface: #f3f4f6;
+  --color-text: #1f2937;
+  --color-accent: #3b82f6;
+  --color-accent-dark: #1e40af;
+  --color-border: #d1d5db;
 }
+
 *{box-sizing:border-box}
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;line-height:1.4;margin:0;color:#111}
-.site-header{background:#000000;color:#fff;padding:1rem}
-.site-title{margin:0;font-size:1.25rem;text-align:center;}
-.site-desc{margin:0.25rem 0 0;font-size:0.9rem;opacity:0.95;text-align:center;}
-.skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
-.skip-link:focus{left:1rem;top:1rem;width:auto;height:auto;padding:.5rem;background:#fff;color:#000}
 
-.nav-list{display:flex;gap:0.5rem;list-style:none;padding:0;margin:0;margin-top:0.75rem;justify-content:center}
-.nav-list button{background:#D4AF37;border:1px solid #fff;color:#000000;padding:.5rem .75rem;border-radius:6px;cursor:pointer}
-.nav-list button[aria-selected="true"]{background:#fff;color:#000000;font-weight:bold}
+/* Harold's body styling  */
+body{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+  line-height:1.4;
+  margin:0;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
 
-.main{max-width:var(--max-width);margin:1rem auto;padding:0 var(--gap)}
+/* Harold's header */
+.site-header{
+  background: var(--color-accent);
+  color:#fff;
+  padding:1rem;
+}
+
+.site-title{
+  margin:0;
+  font-size:1.25rem;
+  text-align:center;
+}
+
+.site-desc{
+  margin:0.25rem 0 0;
+  font-size:0.9rem;
+  opacity:0.95;
+  text-align:center;
+}
+
+/* Harold's skip link */
+.skip-link{
+  position:absolute;
+  left:-9999px;
+  top:auto;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+}
+.skip-link:focus{
+  left:1rem;
+  top:1rem;
+  width:auto;
+  height:auto;
+  padding:.5rem;
+  background:#fff;
+  color: var(--color-accent);
+}
+
+/* Harold's nav styling */
+.nav-list{
+  display:flex;
+  gap:0.5rem;
+  list-style:none;
+  padding:0;
+  margin:0;
+  margin-top:0.75rem;
+  justify-content:center;
+}
+
+.nav-list button{
+  background: var(--color-accent);
+  border:1px solid var(--color-border);
+  color:#ffffff;
+  padding:.5rem .75rem;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.nav-list button[aria-selected="true"]{
+  background:#ffffff;
+  color: var(--color-text);
+  font-weight:bold;
+  border-color: var(--color-accent);
+}
+
+/* Harold's main content wrapper */
+.main{
+  max-width:var(--max-width);
+  margin:1rem auto;
+  padding:0 var(--gap);
+}
+
 .screen{margin-bottom:2rem}
-.cards{display:flex;gap:var(--gap);flex-wrap:wrap;align-items:flex-start}
-.card{display:flex;flex-direction:column;width:var(--card-width);background:#D4AF37;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);overflow:hidden}
-.poster{width:100%;height:300px;object-fit:cover;background:#ddd}
+
+/* Harold's card layout — recolored only */
+.cards{
+  display:flex;
+  gap:var(--gap);
+  flex-wrap:wrap;
+  align-items:flex-start;
+}
+
+.card{
+  display:flex;
+  flex-direction:column;
+  width:var(--card-width);
+  background:#ffffff;
+  border-radius:8px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+  overflow:hidden;
+  border:1px solid var(--color-border);
+}
+
+/* Harold's elements */
+.poster{
+  width:100%;
+  height:300px;
+  object-fit:cover;
+  background:#ddd;
+}
+
 .card-body{padding:.75rem}
-.card-title{margin:0 0 .25rem;font-size:1rem}
-.meta{margin:0;font-size:0.85rem;color:#505050}
-.overview{margin:.5rem 0 0;font-size:0.9rem;color:#333}
+
+.card-title{
+  margin:0 0 .25rem;
+  font-size:1rem;
+}
+
+.meta{
+  margin:0;
+  font-size:0.85rem;
+  color:#505050;
+}
+
+.overview{
+  margin:.5rem 0 0;
+  font-size:0.9rem;
+  color:#333;
+}
 
 .hidden{display:none}
 
-/* Mobile Responsive tweaks */
+
+/* Harold's responsive rules */
 @media (max-width: 900px){
   :root{--card-width:45vw}
   .poster{height:220px}
@@ -39,5 +159,51 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
   .poster{height:180px}
 }
 
-/* footer */
-.site-footer{padding:1rem;text-align:center;color:#555}
+/* Harold's footer */
+.site-footer{
+  padding:1rem;
+  text-align:center;
+  color:#555;
+}
+
+
+
+
+   /* FILTER BAR STYLES (CAILEY) */
+
+.filter-bar {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.filter-bar select,
+.filter-bar button {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+/* Popularity button active state */
+.filter-bar button.is-active {
+  background: var(--color-accent-dark);
+  color: #ffffff;
+}
+
+/* Accessibility helper */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}

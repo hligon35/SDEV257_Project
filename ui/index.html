@@ -26,12 +26,29 @@
     </nav>
   </header>
 
+  <!-- FILTER BAR ADDED BY CAILEY  -->
+  <section class="filter-bar" aria-label="Movie Filters">
+    <label for="genre-filter" class="visually-hidden">Filter by Genre</label>
+    <select id="genre-filter">
+      <option value="all">All Genres</option>
+      <option value="action">Action</option>
+      <option value="comedy">Comedy</option>
+      <option value="drama">Drama</option>
+      <option value="family">Family</option>
+      <option value="horror">Horror</option>
+      <option value="romance">Romance</option>
+    </select>
+
+    <button id="popularity-filter">Sort by Popularity</button>
+  </section>
+  <!--END OF FILTER BAR -->
+
   <main id="main" class="main" role="main">
     <!-- Two screens are implemented as sections and toggled by user. -->
 
     <section id="screen-trending" class="screen" aria-labelledby="tab-trending">
       <h2>Trending Now</h2>
-      <div class="cards" role="list">
+      <div class="cards" role="list" id="trending-cards">
         <!-- Example card; real data will be inserted by the API module. -->
         <article class="card" role="listitem">
           <img class="poster" src="placeholder-poster.jpg" alt="Poster: Example Movie">
@@ -55,7 +72,7 @@
 
     <section id="screen-coming" class="screen hidden" aria-labelledby="tab-coming" aria-hidden="true">
       <h2>Coming Soon</h2>
-      <div class="cards" role="list">
+      <div class="cards" role="list" id="upcoming-cards">
         <article class="card" role="listitem">
           <img class="poster" src="placeholder-poster.jpg" alt="Poster: Upcoming Movie">
           <div class="card-body">
