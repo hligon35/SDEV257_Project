@@ -13,20 +13,32 @@
   <header class="site-header" role="banner">
     <h1 class="site-title">Spotlight</h1>
     <p class="site-desc">Discover what’s trending, see what’s coming.</p>
-    <!-- Simple nav using buttons -->
+
+    <!-- Simple nav using buttons (UI by Harold) -->
     <nav aria-label="Main navigation">
       <ul class="nav-list" role="tablist">
         <li>
-          <button id="tab-trending" role="tab" aria-controls="screen-trending" aria-selected="true">Trending Now</button>
+          <button id="tab-trending" role="tab" aria-controls="screen-trending" aria-selected="true">
+            Trending Now
+          </button>
         </li>
         <li>
-          <button id="tab-coming" role="tab" aria-controls="screen-coming" aria-selected="false">Coming Soon</button>
+          <button id="tab-coming" role="tab" aria-controls="screen-coming" aria-selected="false">
+            Coming Soon
+          </button>
         </li>
       </ul>
     </nav>
   </header>
 
-  <!-- FILTER BAR ADDED BY CAILEY  -->
+  <!-- Filter Bar Added -->
+  <!-- 
+    NOTE TO TEAM:
+    This filter bar is designed to work with BOTH placeholder and API-generated cards.
+    When API cards are inserted, ensure each card includes:
+    data-genres="comma,separated,list"
+    so the filters continue working properly.
+  -->
   <section class="filter-bar" aria-label="Movie Filters">
     <label for="genre-filter" class="visually-hidden">Filter by Genre</label>
     <select id="genre-filter">
@@ -41,16 +53,25 @@
 
     <button id="popularity-filter">Sort by Popularity</button>
   </section>
-  <!--END OF FILTER BAR -->
+  <!-- END FILTER BAR -->
 
   <main id="main" class="main" role="main">
-    <!-- Two screens are implemented as sections and toggled by user. -->
 
+    <!-- TRENDING NOW -->
     <section id="screen-trending" class="screen" aria-labelledby="tab-trending">
       <h2>Trending Now</h2>
+
+      <!-- 
+        TEAM NOTE — IMPORTANT:
+        - The <div id="trending-cards"> MUST stay intact.
+        - All placeholder cards inside can be replaced by API results.
+        - API integration should dynamically INSERT new <article class="card"> elements here.
+        - Keep the structure identical to preserve filtering + layout.
+      -->
       <div class="cards" role="list" id="trending-cards">
-        <!-- Example card; real data will be inserted by the API module. -->
-        <article class="card" role="listitem">
+
+        <!-- ORIGINAL TEAM PLACEHOLDERS -->
+        <article class="card" role="listitem" data-genres="action,drama">
           <img class="poster" src="placeholder-poster.jpg" alt="Poster: Example Movie">
           <div class="card-body">
             <h3 class="card-title">Example Movie</h3>
@@ -58,8 +79,8 @@
             <p class="overview">Short overview text goes here to show layout behavior.</p>
           </div>
         </article>
-        <!-- Placeholder cards to illustrate flex-wrap and responsiveness -->
-        <article class="card" role="listitem">
+
+        <article class="card" role="listitem" data-genres="comedy,family">
           <img class="poster" src="placeholder-poster.jpg" alt="Poster: Example Movie 2">
           <div class="card-body">
             <h3 class="card-title">Another Movie</h3>
@@ -67,13 +88,82 @@
             <p class="overview">More overview text for responsiveness testing.</p>
           </div>
         </article>
+
+        <!-- EXTRA GENRE CARDS (Created by Cailey for filtering demo)
+             These are SAFE to delete once API results replace them.
+             They show how each genre behaves until API data exists.
+        -->
+        <article class="card" role="listitem" data-genres="action">
+          <img class="poster" src="placeholder-poster.jpg" alt="Action Example Movie">
+          <div class="card-body">
+            <h3 class="card-title">Action Example Movie</h3>
+            <p class="meta">Rating: 6.5 • 2025</p>
+            <p class="overview">Action placeholder.</p>
+          </div>
+        </article>
+
+        <article class="card" role="listitem" data-genres="comedy">
+          <img class="poster" src="placeholder-poster.jpg" alt="Comedy Example Movie">
+          <div class="card-body">
+            <h3 class="card-title">Comedy Example Movie</h3>
+            <p class="meta">Rating: 7.1 • 2025</p>
+            <p class="overview">Comedy placeholder.</p>
+          </div>
+        </article>
+
+        <article class="card" role="listitem" data-genres="drama">
+          <img class="poster" src="placeholder-poster.jpg" alt="Drama Example Movie">
+          <div class="card-body">
+            <h3 class="card-title">Drama Example Movie</h3>
+            <p class="meta">Rating: 8.0 • 2025</p>
+            <p class="overview">Drama placeholder.</p>
+          </div>
+        </article>
+
+        <article class="card" role="listitem" data-genres="family">
+          <img class="poster" src="placeholder-poster.jpg" alt="Family Example Movie">
+          <div class="card-body">
+            <h3 class="card-title">Family Example Movie</h3>
+            <p class="meta">Rating: 6.2 • 2025</p>
+            <p class="overview">Family placeholder.</p>
+          </div>
+        </article>
+
+        <article class="card" role="listitem" data-genres="horror">
+          <img class="poster" src="placeholder-poster.jpg" alt="Horror Example Movie">
+          <div class="card-body">
+            <h3 class="card-title">Horror Example Movie</h3>
+            <p class="meta">Rating: 5.9 • 2025</p>
+            <p class="overview">Horror placeholder.</p>
+          </div>
+        </article>
+
+        <article class="card" role="listitem" data-genres="romance">
+          <img class="poster" src="placeholder-poster.jpg" alt="Romance Example Movie">
+          <div class="card-body">
+            <h3 class="card-title">Romance Example Movie</h3>
+            <p class="meta">Rating: 7.4 • 2025</p>
+            <p class="overview">Romance placeholder.</p>
+          </div>
+        </article>
+
       </div>
     </section>
 
+    <!-- COMING SOON -->
     <section id="screen-coming" class="screen hidden" aria-labelledby="tab-coming" aria-hidden="true">
       <h2>Coming Soon</h2>
+
+      <!-- 
+        TEAM NOTE:
+        - Same instructions as Trending section.
+        - The API integration should replace placeholder <article> elements
+          with real upcoming movie data using the same structure.
+      -->
       <div class="cards" role="list" id="upcoming-cards">
-        <article class="card" role="listitem">
+
+        <!-- ORIGINAL TEAM PLACEHOLDERS -->
+        <article class="card" role="listitem" data-genres="horror,drama">
           <img class="poster" src="placeholder-poster.jpg" alt="Poster: Upcoming Movie">
           <div class="card-body">
             <h3 class="card-title">Upcoming One</h3>
@@ -81,7 +171,8 @@
             <p class="overview">Placeholder overview; real data comes from API module.</p>
           </div>
         </article>
-        <article class="card" role="listitem">
+
+        <article class="card" role="listitem" data-genres="romance,action">
           <img class="poster" src="placeholder-poster.jpg" alt="Poster: Upcoming Movie 2">
           <div class="card-body">
             <h3 class="card-title">Upcoming Two</h3>
@@ -89,6 +180,62 @@
             <p class="overview">Second placeholder card to show layout wrapping.</p>
           </div>
         </article>
+
+        <!-- UPCOMING GENRE EXAMPLES (Safe to delete when API is added) -->
+        <article class="card" role="listitem" data-genres="action">
+          <img class="poster" src="placeholder-poster.jpg" alt="Action Example Upcoming">
+          <div class="card-body">
+            <h3 class="card-title">Action Example Upcoming</h3>
+            <p class="meta">Rating: 6.3 • 2026</p>
+            <p class="overview">Action placeholder upcoming.</p>
+          </div>
+        </article>
+
+        <article class="card" role="listitem" data-genres="comedy">
+          <img class="poster" src="placeholder-poster.jpg" alt="Comedy Example Upcoming">
+          <div class="card-body">
+            <h3 class="card-title">Comedy Example Upcoming</h3>
+            <p class="meta">Rating: 7.0 • 2026</p>
+            <p class="overview">Comedy placeholder upcoming.</p>
+          </div>
+        </article>
+
+        <article class="card" role="listitem" data-genres="drama">
+          <img class="poster" src="placeholder-poster.jpg" alt="Drama Example Upcoming">
+          <div class="card-body">
+            <h3 class="card-title">Drama Example Upcoming</h3>
+            <p class="meta">Rating: 7.8 • 2026</p>
+            <p class="overview">Drama placeholder upcoming.</p>
+          </div>
+        </article>
+
+        <article class="card" role="listitem" data-genres="family">
+          <img class="poster" src="placeholder-poster.jpg" alt="Family Example Upcoming">
+          <div class="card-body">
+            <h3 class="card-title">Family Example Upcoming</h3>
+            <p class="meta">Rating: 6.0 • 2026</p>
+            <p class="overview">Family placeholder upcoming.</p>
+          </div>
+        </article>
+
+        <article class="card" role="listitem" data-genres="horror">
+          <img class="poster" src="placeholder-poster.jpg" alt="Horror Example Upcoming">
+          <div class="card-body">
+            <h3 class="card-title">Horror Example Upcoming</h3>
+            <p class="meta">Rating: 5.7 • 2026</p>
+            <p class="overview">Horror placeholder upcoming.</p>
+          </div>
+        </article>
+
+        <article class="card" role="listitem" data-genres="romance">
+          <img class="poster" src="placeholder-poster.jpg" alt="Romance Example Upcoming">
+          <div class="card-body">
+            <h3 class="card-title">Romance Example Upcoming</h3>
+            <p class="meta">Rating: 7.2 • 2026</p>
+            <p class="overview">Romance placeholder upcoming.</p>
+          </div>
+        </article>
+
       </div>
     </section>
 

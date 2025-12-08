@@ -1,0 +1,7 @@
+node_modules/
+.expo/
+.cache/
+dist/
+build/
+.vscode/
+.DS_Store

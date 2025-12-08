@@ -1,120 +1,149 @@
 // UI module JS — controls nav between screens and basic keyboard interaction.
 
-// Grab references to tabs and screens
+// NOTE TO API TEAM:
+// When you fetch real movie data, create <article class="card"> elements
+// using the same structure as the placeholders and push them into:
+// originalTrendingCards OR originalUpcomingCards
+// This keeps filtering + sorting working automatically.
+
+
 const tabTrending = document.getElementById('tab-trending');
 const tabComing = document.getElementById('tab-coming');
 const screenTrending = document.getElementById('screen-trending');
 const screenComing = document.getElementById('screen-coming');
 
 function showScreen(targetTab, targetScreen) {
-  // Update tab selected states for accessibility
-  [tabTrending, tabComing].forEach(t => t.setAttribute('aria-selected','false'));
-  targetTab.setAttribute('aria-selected','true');
+  [tabTrending, tabComing].forEach(t => t.setAttribute('aria-selected', 'false'));
+  targetTab.setAttribute('aria-selected', 'true');
 
-  // Hide both screens, then show the target
   [screenTrending, screenComing].forEach(s => {
     s.classList.add('hidden');
-    s.setAttribute('aria-hidden','true');
+    s.setAttribute('aria-hidden', 'true');
   });
 
   targetScreen.classList.remove('hidden');
-  targetScreen.setAttribute('aria-hidden','false');
+  targetScreen.setAttribute('aria-hidden', 'false');
 }
 
-// Click handlers
-tabTrending.addEventListener('click', () => showScreen(tabTrending, screenTrending));
-tabComing.addEventListener('click', () => showScreen(tabComing, screenComing));
+tabTrending.addEventListener('click', () => {
+  showScreen(tabTrending, screenTrending);
+  refreshCurrentScreen();
+});
 
-// Enable arrow key nav between tabs for keyboard users
+tabComing.addEventListener('click', () => {
+  showScreen(tabComing, screenComing);
+  refreshCurrentScreen();
+});
+
 document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-    const current = tabTrending.getAttribute('aria-selected') === 'true' ? tabTrending : tabComing;
-    const next = (current === tabTrending) ? tabComing : tabTrending;
-    showScreen(next, (next === tabTrending) ? screenTrending : screenComing);
+    const current =
+      tabTrending.getAttribute('aria-selected') === 'true'
+        ? tabTrending
+        : tabComing;
+    const next = current === tabTrending ? tabComing : tabTrending;
+    showScreen(next, next === tabTrending ? screenTrending : screenComing);
     next.focus();
+    refreshCurrentScreen();
   }
 });
 
-// Initial UI state: ensure Trending is visible
 showScreen(tabTrending, screenTrending);
 
 
-// FILTERING + INTERACTIVITY MODULE
-
-
-
-// === Grab filter UI elements ===
+// UI elements for filtering
 const genreFilter = document.getElementById("genre-filter");
 const popularityFilter = document.getElementById("popularity-filter");
 
 // Containers where cards live
-const trendingCardsContainer = document.querySelector("#trending-cards") || screenTrending.querySelector(".cards");
-const upcomingCardsContainer = document.querySelector("#upcoming-cards") || screenComing.querySelector(".cards");
+const trendingCardsContainer = document.querySelector("#trending-cards");
+const upcomingCardsContainer = document.querySelector("#upcoming-cards");
 
-// State tracking
+
+const originalTrendingCards = Array.from(
+  trendingCardsContainer.querySelectorAll(".card")
+);
+
+const originalUpcomingCards = Array.from(
+  upcomingCardsContainer.querySelectorAll(".card")
+);
+
+
+
+// FILTER STATE
 let currentGenre = "all";
 let sortByPopularity = false;
 
 
-// === Helper: extract rating from Harold's HTML ===
+// Extract rating for sorting from the meta text
 function getCardRating(card) {
   const meta = card.querySelector(".meta");
   if (!meta) return 0;
-
   const match = meta.textContent.match(/\d+(\.\d+)?/);
   return match ? parseFloat(match[0]) : 0;
 }
 
 
-// === Main filter function ===
-function applyFilters(container) {
-  const cards = Array.from(container.querySelectorAll(".card"));
 
+
+// MAIN FILTER FUNCTION
+// Filters and sorts cards based on dropdown + popularity button.
+//
+// note:
+// This same filter logic will work automatically with API cards AS LONG AS
+// the API person attaches this attribute to each movie card:
+//
+// data-genres="action,comedy,drama"
+
+function applyFilters(container, originalList) {
+  let cards = Array.from(originalList);
   let filtered = cards;
 
-  // Filter by genre using simple keyword matching
+  // Filter by genre
   if (currentGenre !== "all") {
-    filtered = filtered.filter(card =>
-      card.textContent.toLowerCase().includes(currentGenre.toLowerCase())
-    );
+    filtered = filtered.filter(card => {
+      const genres = card.dataset.genres
+        .toLowerCase()
+        .split(",")
+        .map(g => g.trim());
+      return genres.includes(currentGenre);
+    });
   }
 
-  // Sort by popularity using rating in Harold’s placeholder cards
+  // Sort by popularity 
   if (sortByPopularity) {
-    filtered = filtered.sort((a, b) => getCardRating(b) - getCardRating(a));
+    filtered.sort((a, b) => getCardRating(b) - getCardRating(a));
   }
 
-  // Re-render cards
+  // Re-render
   container.innerHTML = "";
   filtered.forEach(card => container.appendChild(card));
 }
 
 
-// === Apply filters to the currently visible screen ===
+// Apply filters depending on which tab is shown
+
 function refreshCurrentScreen() {
   const trendingVisible = !screenTrending.classList.contains("hidden");
 
   if (trendingVisible) {
-    applyFilters(trendingCardsContainer);
+    applyFilters(trendingCardsContainer, originalTrendingCards);
   } else {
-    applyFilters(upcomingCardsContainer);
+    applyFilters(upcomingCardsContainer, originalUpcomingCards);
   }
 }
 
 
-// === Event listeners for filters ===
+// FILTER EVENTS
 
-// When user selects a genre
 genreFilter.addEventListener("change", (e) => {
   currentGenre = e.target.value;
   refreshCurrentScreen();
 });
 
-// When user clicks "Sort by Popularity"
 popularityFilter.addEventListener("click", () => {
   sortByPopularity = !sortByPopularity;
 
-  // Toggle button appearance
   if (sortByPopularity) {
     popularityFilter.classList.add("is-active");
     popularityFilter.textContent = "Sort by Default";
@@ -125,10 +154,3 @@ popularityFilter.addEventListener("click", () => {
 
   refreshCurrentScreen();
 });
-
-
-// === Reapply filters whenever the tab switches ===
-tabTrending.addEventListener("click", () => refreshCurrentScreen());
-tabComing.addEventListener("click", () => refreshCurrentScreen());
-
-

@@ -14,7 +14,7 @@
 
 *{box-sizing:border-box}
 
-/* Harold's body styling  */
+/* body styling  */
 body{
   font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
   line-height:1.4;
@@ -23,7 +23,7 @@ body{
   color: var(--color-text);
 }
 
-/* Harold's header */
+/* header */
 .site-header{
   background: var(--color-accent);
   color:#fff;
@@ -43,7 +43,7 @@ body{
   text-align:center;
 }
 
-/* Harold's skip link */
+/* skip link */
 .skip-link{
   position:absolute;
   left:-9999px;
@@ -62,7 +62,7 @@ body{
   color: var(--color-accent);
 }
 
-/* Harold's nav styling */
+/* nav styling */
 .nav-list{
   display:flex;
   gap:0.5rem;
@@ -89,7 +89,7 @@ body{
   border-color: var(--color-accent);
 }
 
-/* Harold's main content wrapper */
+/* main content wrapper */
 .main{
   max-width:var(--max-width);
   margin:1rem auto;
@@ -98,7 +98,7 @@ body{
 
 .screen{margin-bottom:2rem}
 
-/* Harold's card layout — recolored only */
+/* card layout */
 .cards{
   display:flex;
   gap:var(--gap);
@@ -117,7 +117,7 @@ body{
   border:1px solid var(--color-border);
 }
 
-/* Harold's elements */
+/* elements */
 .poster{
   width:100%;
   height:300px;
@@ -147,7 +147,7 @@ body{
 .hidden{display:none}
 
 
-/* Harold's responsive rules */
+/* responsive rules */
 @media (max-width: 900px){
   :root{--card-width:45vw}
   .poster{height:220px}
@@ -159,7 +159,7 @@ body{
   .poster{height:180px}
 }
 
-/* Harold's footer */
+/* footer */
 .site-footer{
   padding:1rem;
   text-align:center;
@@ -169,7 +169,7 @@ body{
 
 
 
-   /* FILTER BAR STYLES (CAILEY) */
+   /* Filter Bar Styles */
 
 .filter-bar {
   display: flex;
@@ -206,4 +206,8 @@ body{
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+.card {
+  min-height: 420px; /* changes the card size */
 }
