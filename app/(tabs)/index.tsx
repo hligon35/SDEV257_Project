@@ -1,98 +1,164 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, View, Text, Pressable, FlatList } from 'react-native';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+type Movie = {
+  id: number;
+  title: string;
+  year: string;
+  rating: number;
+  genres: string[];
+};
+
+/*
+  Placeholder movie data for demonstration purposes.
+*/
+const MOVIES: Movie[] = [
+  {
+    id: 1,
+    title: 'Example Movie One',
+    year: '2025',
+    rating: 8.2,
+    genres: ['action', 'drama'],
+  },
+  {
+    id: 2,
+    title: 'Example Movie Two',
+    year: '2025',
+    rating: 7.6,
+    genres: ['comedy'],
+  },
+  {
+    id: 3,
+    title: 'Family Feature',
+    year: '2024',
+    rating: 7.9,
+    genres: ['family'],
+  },
+  {
+    id: 4,
+    title: 'Romantic Placeholder',
+    year: '2026',
+    rating: 6.8,
+    genres: ['romance'],
+  },
+];
+
+const GENRES = ['all', 'action', 'comedy', 'drama', 'family', 'romance'];
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const [selectedGenre, setSelectedGenre] = useState('all');
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  const filteredMovies =
+    selectedGenre === 'all'
+      ? MOVIES
+      : MOVIES.filter(movie =>
+          movie.genres.includes(selectedGenre)
+        );
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Trending Movies</Text>
+
+      {/* GENRE FILTER */}
+      <View style={styles.filterRow}>
+        {GENRES.map(genre => (
+          <Pressable
+            key={genre}
+            style={[
+              styles.filterButton,
+              selectedGenre === genre && styles.filterActive,
+            ]}
+            onPress={() => setSelectedGenre(genre)}
+          >
+            <Text
+              style={[
+                styles.filterText,
+                selectedGenre === genre && styles.filterTextActive,
+              ]}
+            >
+              {genre.toUpperCase()}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
+
+      {/* MOVIE LIST */}
+      <FlatList
+        data={filteredMovies}
+        keyExtractor={item => item.id.toString()}
+        contentContainerStyle={styles.list}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <Text style={styles.movieTitle}>{item.title}</Text>
+            <Text style={styles.meta}>
+              {item.year} • Rating {item.rating}
+            </Text>
+            <Text style={styles.genres}>
+              {item.genres.join(', ')}
+            </Text>
+          </View>
+        )}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#ffffff',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 12,
+  },
+  filterRow: {
     flexDirection: 'row',
-    alignItems: 'center',
+    flexWrap: 'wrap',
+    marginBottom: 16,
     gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  filterButton: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 16,
+    backgroundColor: '#eeeeee',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  filterActive: {
+    backgroundColor: '#3b82f6',
+  },
+  filterText: {
+    fontSize: 12,
+    color: '#333',
+  },
+  filterTextActive: {
+    color: '#ffffff',
+    fontWeight: 'bold',
+  },
+  list: {
+    gap: 12,
+  },
+  card: {
+    padding: 16,
+    borderRadius: 10,
+    backgroundColor: '#f9f9f9',
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+  movieTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  meta: {
+    fontSize: 13,
+    color: '#555',
+    marginTop: 4,
+  },
+  genres: {
+    fontSize: 12,
+    color: '#777',
+    marginTop: 6,
   },
 });
