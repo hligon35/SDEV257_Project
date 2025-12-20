@@ -1,12 +1,15 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import AppUI from './src/ui/AppUI';
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
-      <AppUI />
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container} edges={['left', 'right', 'top', 'bottom']}>
+        <AppUI />
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
