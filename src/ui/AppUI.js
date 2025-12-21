@@ -1,11 +1,11 @@
 // Entrypoint UI component
-// Uncomment sections when API integration is added
 
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location';
 import {
   StyleSheet,
+  Platform,
   Text,
   View,
   ScrollView,
@@ -101,6 +101,15 @@ export default function AppUI() {
     async function init() {
       // Default region is US; try to refine it from the user's initial location.
       try {
+        // Skip location on web, so UI still works.
+        if (Platform.OS === 'web') {
+          if (mounted) {
+            setRegion('US');
+            fetchData(null, 'US');
+          }
+          return;
+        }
+
         const perm = await Location.requestForegroundPermissionsAsync();
         if (perm.status !== 'granted') {
           if (mounted) {
@@ -197,13 +206,13 @@ export default function AppUI() {
         <Text style={styles.sectionTitle}>{tab === 'trending' ? 'Trending Now' : 'Coming Soon'}</Text>
 
         {tab === 'trending' ? (
-          finalTrending.length === 0 ? (
+          (trending.length > 0 && finalTrending.length === 0) ? (
             <Text style={styles.noResults}>No results for "{selectedFilter}"</Text>
           ) : (
             renderCards(finalTrending, trendingPlaceholders)
           )
         ) : (
-          finalUpcoming.length === 0 ? (
+          (upcoming.length > 0 && finalUpcoming.length === 0) ? (
             <Text style={styles.noResults}>No results for "{selectedFilter}"</Text>
           ) : (
             renderCards(finalUpcoming, upcomingPlaceholders)
